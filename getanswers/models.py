@@ -17,6 +17,7 @@ class Question(models.Model):
     title = models.CharField(max_length=255)
     qtext = models.TextField()
     asker = models.ForeignKey(Profile)
+    tag = models.ManyToManyField('Tag', null=True, related_name='tags')
     timestamp = models.DateTimeField()
 
     def __str__(self):
@@ -32,3 +33,21 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.atext
+
+
+class Tag(models.Model):
+    ttext = models.CharField(max_length=50)
+
+
+class Vote(models.Model):
+    voter = models.ForeignKey(Profile)
+    foranswer = models.ForeignKey(Answer)
+    vote = models.BooleanField(related_name='votes')
+
+#
+
+#
+
+#
+
+#
