@@ -86,8 +86,8 @@ WSGI_APPLICATION = 'questionbox.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'question-box',
-        'USER': 'question-box',
+        'NAME': 'questionbox',
+        'USER': 'questionbox',
         'PASSWORD': 'password',
         'HOST': '',
         'PORT': '',
