@@ -46,7 +46,7 @@ class Tag(models.Model):
 class Vote(models.Model):
     voter = models.ForeignKey(Profile)
     foranswer = models.ForeignKey(Answer)
-    vote = models.BooleanField()
+    vote = models.BooleanField(related_name='votes')
 
     def __str__(self):
         return self.vote

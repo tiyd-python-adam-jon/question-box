@@ -4,13 +4,20 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 # from django.core.urlresolvers import reverse
-from django.shortcuts import redirect  # , render, get_object_or_404
+from django.shortcuts import redirect, render  # , get_object_or_404
 from django.utils.timezone import make_aware
 # from django.db.models import Count
 # from django.views import generic
 from .forms import QuestionForm
 from .models import Tag
 
+
+# Simple page to check add_question
+def question_page(request):
+    form = QuestionForm()
+    return render(request,
+                  'getanswers/add_question.html',
+                  {'form': form})
 
 @login_required
 def add_question(request):
@@ -23,7 +30,7 @@ def add_question(request):
                 tag = Tag(ttext=t.strip())
                 tag.save()
                 question.tags.add(tag)
-                
+
             question.timestamp = make_aware(datetime.now())
             question.save()
             messages.add_message(request,
