@@ -15,43 +15,43 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Answer',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('atext', models.TextField()),
-                ('score', models.IntegerField()),
-                ('timestamp', models.DateTimeField()),
+                ('score', models.IntegerField(default=0)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('accepted', models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
-                ('points', models.IntegerField(null=True)),
-                ('date_created', models.DateTimeField(null=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('points', models.IntegerField(default=0)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Question',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=255)),
                 ('qtext', models.TextField()),
-                ('timestamp', models.DateTimeField()),
-                ('asker', models.ForeignKey(to='getanswers.Profile')),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('asker', models.ForeignKey(null=True, to='getanswers.Profile', blank=True)),
             ],
         ),
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('ttext', models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
             name='Vote',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('vote', models.BooleanField()),
                 ('foranswer', models.ForeignKey(to='getanswers.Answer')),
                 ('voter', models.ForeignKey(to='getanswers.Profile')),
