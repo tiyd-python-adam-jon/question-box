@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^register/', views.UserCreateView.as_view(
-        template_name='register/register.html'), name='register')
+        template_name='registration/register.html'), name='register')
 ]
