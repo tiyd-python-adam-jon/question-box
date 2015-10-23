@@ -22,7 +22,7 @@ class QuestionForm(forms.ModelForm):
 class AnswerForm(forms.ModelForm):
     atext = forms.CharField(label='', help_text='', widget=forms.Textarea(
         attrs={'cols': 80, 'rows': 12, 'class': 'form-control',
-               'placeholder': 'Question Text (required)'}))
+               'placeholder': 'Answer Text (required)'}))
 
 
     class Meta:

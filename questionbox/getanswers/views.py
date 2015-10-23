@@ -9,15 +9,27 @@ from django.utils.timezone import make_aware
 # from django.db.models import Count
 # from django.views import generic
 from .forms import QuestionForm, AnswerForm
-from .models import Tag
+from .models import Tag, Question
 
 
 # Simple page to check add_question
 def question_page(request):
+    '''This is for testing purposes only'''
     form = QuestionForm()
     return render(request,
                   'getanswers/add_question.html',
                   {'form': form})
+
+# Simple page to check add_answer
+def answer_page(request):
+    '''This is for testing purposes only'''
+    form = AnswerForm()
+    question = Question.objects.first()
+    return render(request,
+                  'getanswers/add_answer.html',
+                  {'question': question,
+                   'form': form})
+
 
 # @login_required
 def add_question(request):

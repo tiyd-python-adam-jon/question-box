@@ -1,0 +1,31 @@
+{% comment %}
+{% extends "base.html" %}
+
+{% block title %}Ask a Question{% endblock %}
+
+{% block content %}
+{% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load bootstrap3 %}
+  {% load staticfiles %}
+  {% load bootstrap_themes %}
+  {% bootstrap_styles theme='cosmo' type='min.css' %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery=True %}
+</head>
+<body>
+  <div class="container">
+    <form method="POST" action="{% url 'add_answer' question.pk %}?next={{ request.path }}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-md btn-primary" value="Submit Answer">
+    </form>
+  </div>
+</body>
+
+{% comment %}
+{% endblock %}
+{% endcomment %}
+</html>
