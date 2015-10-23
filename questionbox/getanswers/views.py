@@ -19,20 +19,21 @@ def question_page(request):
                   'getanswers/add_question.html',
                   {'form': form})
 
-@login_required
+# @login_required
 def add_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            question.asker = request.user.profile
-            for t in request.POST['taglist'].split(','):
-                tag = Tag(ttext=t.strip())
-                tag.save()
-                question.tags.add(tag)
-
+            # question.asker = request.user.profile
             question.timestamp = make_aware(datetime.now())
             question.save()
+            for t in request.POST['taglist'].split(sep=','):
+                tag = Tag(ttext=t.strip())
+                tag.save()
+                question.tag.add(tag)
+                question.save()
+
             messages.add_message(request,
                                  messages.SUCCESS,
                                  'You successfully posted your question')

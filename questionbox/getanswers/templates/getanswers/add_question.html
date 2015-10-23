@@ -6,16 +6,26 @@
 {% block content %}
 {% endcomment %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  {% load bootstrap3 %}
+  {% load staticfiles %}
+  {% load bootstrap_themes %}
+  {% bootstrap_styles theme='cosmo' type='min.css' %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery=True %}
 </head>
 <body>
-<form method="POST" action="{% url 'add_question' %}?next={{ request.path }}">
-{% csrf_token %}
-{{ form.as_p }}
+  <div class="container">
+    <form method="POST" action="{% url 'add_question' %}?next={{ request.path }}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-md btn-primary" value="Submit Question">
+    </form>
+  </div>
 </body>
-</form>
 
 {% comment %}
 {% endblock %}
 {% endcomment %}
+</html>
