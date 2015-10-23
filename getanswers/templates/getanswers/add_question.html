@@ -1,0 +1,21 @@
+{% comment %}
+{% extends "base.html" %}
+
+{% block title %}Ask a Question{% endblock %}
+
+{% block content %}
+{% endcomment %}
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<form method="POST" action="{% url 'add_question' %}?next={{ request.path }}">
+{% csrf_token %}
+{{ form.as_p }}
+</body>
+</form>
+
+{% comment %}
+{% endblock %}
+{% endcomment %}
