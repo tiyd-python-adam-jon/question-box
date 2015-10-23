@@ -7,7 +7,7 @@ class QuestionForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(
         attrs={'size': '40', 'class': 'form-control',
                'placeholder': 'Question Title (required)'}))
-    qtext = forms.CharField(widget=forms.TextArea(
+    qtext = forms.CharField(widget=forms.Textarea(
         attrs={'cols': 80, 'rows': 12, 'class': 'form-control',
                'placeholder': 'Question Text (required)'}))
     taglist = forms.CharField(widget=forms.TextInput(

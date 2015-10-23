@@ -17,8 +17,7 @@ class Question(models.Model):
     title = models.CharField(max_length=255)
     qtext = models.TextField()
     asker = models.ForeignKey(Profile)
-    tag = models.ManyToManyField('Tag', null=True, related_name='tags')
-    accepted = models.OneToOneField('Answer', null=True)
+    tag = models.ManyToManyField('Tag', related_name='tags')
     timestamp = models.DateTimeField()
 
     def __str__(self):
@@ -31,6 +30,7 @@ class Answer(models.Model):
     atext = models.TextField()
     score = models.IntegerField()
     timestamp = models.DateTimeField()
+    accepted = models.BooleanField(default=False)
 
     def __str__(self):
         return '{}: {}'.format(self.answerer, self.atext)
@@ -46,7 +46,7 @@ class Tag(models.Model):
 class Vote(models.Model):
     voter = models.ForeignKey(Profile)
     foranswer = models.ForeignKey(Answer)
-    vote = models.BooleanField(related_name='votes')
+    vote = models.BooleanField()
 
     def __str__(self):
         return self.vote
