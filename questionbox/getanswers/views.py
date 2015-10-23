@@ -8,7 +8,7 @@ from django.shortcuts import redirect, render  # , get_object_or_404
 from django.utils.timezone import make_aware
 # from django.db.models import Count
 # from django.views import generic
-from .forms import QuestionForm
+from .forms import QuestionForm, AnswerForm
 from .models import Tag
 
 
@@ -37,6 +37,31 @@ def add_question(request):
             messages.add_message(request,
                                  messages.SUCCESS,
                                  'You successfully posted your question')
+        else:
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 'Form data invalid, complete required fields')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.GET['next'])
+
+
+# @login_required
+def add_answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            # TODO: put question=xx in query string
+            answer.question = request.GET['question']
+            # answer.asker = request.user.profile
+            answer.timestamp = make_aware(datetime.now())
+            answer.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'You successfully posted your answer')
         else:
             messages.add_message(request,
                                  messages.ERROR,

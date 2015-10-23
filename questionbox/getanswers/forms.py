@@ -1,6 +1,6 @@
 from django import forms
 # from django.contrib.auth.models import User
-from getanswers.models import Question
+from getanswers.models import Question, Answer
 
 
 class QuestionForm(forms.ModelForm):
@@ -17,3 +17,14 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['title', 'qtext', 'taglist']
+
+
+class AnswerForm(forms.ModelForm):
+    atext = forms.CharField(label='', help_text='', widget=forms.Textarea(
+        attrs={'cols': 80, 'rows': 12, 'class': 'form-control',
+               'placeholder': 'Question Text (required)'}))
+
+
+    class Meta:
+        model = Answer
+        fields = ['atext']
