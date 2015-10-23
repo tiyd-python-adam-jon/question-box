@@ -16,9 +16,9 @@ class Profile(models.Model):
 class Question(models.Model):
     title = models.CharField(max_length=255)
     qtext = models.TextField()
-    asker = models.ForeignKey(Profile)
-    tag = models.ManyToManyField('Tag')
-    timestamp = models.DateTimeField()
+    asker = models.ForeignKey(Profile, null=True, blank=True)  # TODO: remove null and blank
+    tag = models.ManyToManyField('Tag', related_name='tags')
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title

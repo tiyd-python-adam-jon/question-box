@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from getanswers import views
+from getanswers import urls as getanswers_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^register/', views.UserCreateView.as_view(
-        template_name='registration/register.html'), name='register')
+        template_name='registration/register.html'), name='register'),
+    url(r'', include(getanswers_urls)),
 ]
