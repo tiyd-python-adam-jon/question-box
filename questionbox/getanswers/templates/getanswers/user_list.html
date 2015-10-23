@@ -7,8 +7,12 @@
 {% bootstrap_styles theme='slate' type='css'%}
 {% block content %}
 
+<header><h1>Get Answers</h1>
+<h3>Recently asked questions:</h3></header>
+
 {% for question in questions %}
 <p>{{ question.title }}</p>
+<p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
 {% endfor %}
 
 {% bootstrap_pagination page_obj %}
