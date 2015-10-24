@@ -45,7 +45,8 @@ def add_question(request):
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            # question.asker = request.user.profile
+            question.asker = request.user.profile
+            question.asker.points += 5
             question.save()
             for t in request.POST['taglist'].split(sep=','):
                 tag = Tag(ttext=t.strip())
