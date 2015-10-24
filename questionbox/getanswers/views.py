@@ -74,7 +74,7 @@ def add_answer(request, pk):
         if form.is_valid():
             answer = form.save(commit=False)
             answer.question = get_object_or_404(Question, pk=pk)
-            # answer.asker = request.user.profile
+            answer.answerer = request.user.profile
             answer.save()
             messages.add_message(request,
                                  messages.SUCCESS,
