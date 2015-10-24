@@ -56,14 +56,14 @@
         {% endcomment %}
           {% if user.is_authenticated %}
           <li role="presentation">
-            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'logout' %}?next={% firstof request.path '/' %}">Logout</a>
           </li>
           {% else %}
           <li role="presentation">
-            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'login' %}?next={% firstof request.path '/' %}">Login</a>
           </li>
           <li role="presentation">
-            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'register' %}?next={% firstof request.path '/' %}">Register</a>
           </li>
           {% endif %}
         </ul>
