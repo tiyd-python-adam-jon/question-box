@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <div class="col-md-10">
+    <div class="row">
+      <div class="row">
+        <div class="col-md-1">
+          {# This is space to put something beside the question panel #}
+        </div>
+        <div class="col-md-9">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"><b>{{ view.question.title }}</b></h3>
+            </div>
+            <div class="panel-body">
+              {{ view.question.qtext }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      {% for answer in answers %}
+      <div class="row">
+        <div class="col-md-1">
+          {# TODO: make up and down vote functions #}
+          <div class="row">
+            <a href="#"><span class="glyphicon glyphicon-chevron-up text-muted pull-right"></span></a>
+          </div>
+          <div class="row">
+            <span class="pull-right"><b>{{ answer.score }}</b>&nbsp;<span>
+          </div>
+          <div class="row">
+            <a href="#"><span class="glyphicon glyphicon-chevron-down text-muted pull-right"></span></a>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              {{ answer.atext }}
+            </div>
+            <div class="panel-footer"><small><b>{{ answer.answerer }}</b>, answered on {{ answer.timestamp }}</small></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-9">
+        <form method="POST" action="{% url 'add_answer' view.question.pk %}?next={{ request.path }}">
+          {% csrf_token %}
+            {{ view.form.as_p }}
+            <input type="submit" class="btn btn-md btn-primary pull-right" value="Submit Answer">
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-2">
+    {% for tag in view.question.tag.all %}
+    <div class="row">
+      <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% comment %}
+  {% if answers|length > 10 %}
+    <div class="text-center">
+      {% bootstrap_pagination page_obj pages_to_show=5 %}
+    </div>
+  {% endif %}
+{% endcomment %}
+{% endblock %}

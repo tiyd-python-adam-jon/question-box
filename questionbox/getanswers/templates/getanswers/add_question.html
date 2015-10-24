@@ -1,10 +1,10 @@
-{% comment %}
+
 {% extends "base.html" %}
 
 {% block title %}Ask a Question{% endblock %}
 
 {% block content %}
-{% endcomment %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +14,7 @@
   {% bootstrap_styles theme='cosmo' type='min.css' %}
   {% bootstrap_css %}
   {% bootstrap_javascript jquery=True %}
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 </head>
 <body>
   <div class="container">
@@ -25,7 +26,7 @@
   </div>
 </body>
 
-{% comment %}
+
 {% endblock %}
-{% endcomment %}
+
 </html>

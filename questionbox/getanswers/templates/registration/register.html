@@ -1,4 +1,4 @@
-{# {% extends 'bookmarkapp/base.html' %}#}
+{% extends "base.html" %}
 {% load bootstrap3 %}
 {% load bootstrap_themes %}
 {% load i18n admin_static %}
@@ -7,11 +7,12 @@
 {% bootstrap_styles theme='cosmo' type='css'%}
 {% block content %}
 
-<h3>Register a new user?</h3>
+<h3>Register as a new user</h3>
+<br>
 
 <form action="" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Create User" />
+    <input type="submit" class="btn btn-md btn-primary" value="Create User" />
 </form>
 {% endblock %}

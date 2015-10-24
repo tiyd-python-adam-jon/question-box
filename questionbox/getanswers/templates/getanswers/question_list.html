@@ -1,19 +1,27 @@
-{# {% extends "base.html" %}#}
+{% extends "base.html" %}
 {% load bootstrap3 %}
 {% load bootstrap_themes %}
 {% load i18n admin_static %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
-{% bootstrap_styles theme='slate' type='css'%}
+
 {% block content %}
 
-<header><h1>Get Answers</h1>
-<h3>Recently asked questions:</h3></header>
+<header>
+  <h3>Recently asked questions:</h3>
+</header>
+<br>
 <!--  TODO: Add links to detail pages-->
 {% for question in questions %}
-<a href='#'><p>{{ question.title }}</p></a>
+<a href="{% url 'answer_list' question.pk %}"><p>{{ question.title }}</p></a>
 <p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
+<br>
 {% endfor %}
 
-{% bootstrap_pagination page_obj %}
+{% if questions|length > 10 %}
+  <div class="text-center">
+    {% bootstrap_pagination page_obj pages_to_show=5 %}
+  </div>
+{% endif %}
+
 {% endblock %}
