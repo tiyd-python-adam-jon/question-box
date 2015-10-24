@@ -7,13 +7,19 @@
 
 {% block content %}
 
-<header><h1>Get Answers</h1>
-<h3>Recently asked questions:</h3></header>
+<header>
+  <h3>Recently asked questions:</h3>
+</header>
 <!--  TODO: Add links to detail pages-->
 {% for question in questions %}
 <a href="#"><p>{{ question.title }}</p></a>
 <p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
 {% endfor %}
 
-{% bootstrap_pagination page_obj %}
+{% if questions|length > 10 %}
+  <div class="text-center">
+    {% bootstrap_pagination page_obj pages_to_show=5 %}
+  </div>
+{% endif %}
+
 {% endblock %}
