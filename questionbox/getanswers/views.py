@@ -32,7 +32,7 @@ class UserCreateView(FormView):
 
 
 # Simple page to check add_question
-def question_page(request):
+def question_form(request):
     form = QuestionForm()
     return render(request,
                   'getanswers/add_question.html',
@@ -68,14 +68,12 @@ def add_question(request):
 
 
 # @login_required
-def add_answer(request):
+def add_answer(request, pk):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
-            # TODO: put question=xx in query string
-            q_pk = request.GET['pk']
-            answer.question = get_object_or_404(Question, pk=q_pk)
+            answer.question = get_object_or_404(Question, pk=pk)
             # answer.asker = request.user.profile
             answer.save()
             messages.add_message(request,
@@ -108,7 +106,7 @@ class QuestionListView(ListView):
 class AnswerListView(ListView):
     template_name = 'getanswers/answer_list.html'
     context_object_name = 'answers'
-    # paginate_by = 20
+    paginate_by = 10
 
     def get_queryset(self):
         self.form = AnswerForm()
