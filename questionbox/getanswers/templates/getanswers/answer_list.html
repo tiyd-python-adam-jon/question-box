@@ -9,22 +9,43 @@
         - panel
         - leave last two columns open for tags to float
       {% endcomment %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><b>{{ view.question.title }}</b></h3>
+      <div class="row">
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-9">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><b>{{ view.question.title }}</b></h3>
+              </div>
+              <div class="panel-body">
+                {{ view.question.qtext }}
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="panel-body">
-          {{ view.question.qtext }}
-        </div>
-      </div>
-      <br>
+        <br>
 
-      {% for answer in answers %}
-      <div class="panel panel-default">
-        <div class="panel-body">
-          {{ answer.atext }}
+        {% for answer in answers %}
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-9">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                {{ answer.atext }}
+              </div>
+              <div class="panel-footer"><small><b>{{ answer.answerer }}</b>, answered on {{ answer.timestamp }}</small></div>
+            </div>
+          </div>
         </div>
-        <div class="panel-footer"><small><b>{{ answer.answerer }}</b>, answered on {{ answer.timestamp }}</small></div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-2">
+      {% for tag in view.question.tag.all %}
+      <div class="row">
+        <p>{{ tag.ttext }}</p>
       </div>
       {% endfor %}
     </div>
