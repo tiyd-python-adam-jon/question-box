@@ -12,6 +12,7 @@
       <div class="row">
         <div class="row">
           <div class="col-md-1">
+            {# This is space to put something beside the question panel #}
           </div>
           <div class="col-md-9">
             <div class="panel panel-default">
@@ -29,6 +30,16 @@
         {% for answer in answers %}
         <div class="row">
           <div class="col-md-1">
+            {# This is where we will put the up down vote and vote count #}
+            <div class="row">
+              <a href="#"><span class="glyphicon glyphicon-chevron-up text-muted"></span></a>
+            </div>
+            <div class="row">
+              <b>&nbsp;{{ answer.score }}</b>
+            </div>
+            <div class="row">
+              <a href="#"><span class="glyphicon glyphicon-chevron-down text-muted"></span></a>
+            </div>
           </div>
           <div class="col-md-9">
             <div class="panel panel-default">
