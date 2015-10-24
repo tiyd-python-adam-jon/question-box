@@ -33,7 +33,7 @@
             <span class="pull-right"><b>{{ answer.score }}</b>{%if answer.score < 10 %}&nbsp;{% endif %}<span>
           </div>
           <div class="row">
-            <a href="#"><span class="glyphicon glyphicon-chevron-down text-muted pull-right"></span></a>
+            <a href="{% url 'downvote_answer' view.question.pk %}?next={{ request.path }};answerpk={{ answer.pk }}"><span class="glyphicon glyphicon-chevron-down text-muted pull-right"></span></a>
           </div>
         </div>
         <div class="col-md-9">

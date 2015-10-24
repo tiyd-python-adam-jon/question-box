@@ -120,7 +120,7 @@ def downvote_answer(request, pk):
         request.user.save()
         messages.add_message(request,
                              messages.SUCCESS,
-                             'You successfully upvoted that answer')
+                             'You successfully downvoted that answer')
     else:
         messages.add_message(request,
                              messages.ERROR,
