@@ -1,11 +1,11 @@
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
-from .models import Profile, Tag, Question
+from django.contrib.auth import authenticate, login  # , logout
+from .models import Profile, Tag, Question, Answer
 # from datetime import datetime  # , timedelta
 from django.contrib import messages
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 # from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -84,6 +84,24 @@ def add_answer(request, pk):
             messages.add_message(request,
                                  messages.ERROR,
                                  'Form data invalid, complete required fields')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.GET['next'])
+
+
+@login_required
+def upvote_answer(request):
+    if request.method == 'POST':
+        answer = get_object_or_404(Answer, pk=request.GET['pk'])
+        answer.score += 10
+        answer.save()
+        answer.answerer.points += 10
+        answer.answerer.save()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'You successfully upvoted that answer')
     else:
         messages.add_message(request,
                              messages.ERROR,
