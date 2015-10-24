@@ -64,7 +64,7 @@
   <div class="col-md-2">
     {% for tag in view.question.tag.all %}
     <div class="row">
-      <p>{{ tag.ttext }}</p>
+      <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
     </div>
     {% endfor %}
   </div>
