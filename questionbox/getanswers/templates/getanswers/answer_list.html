@@ -19,7 +19,7 @@
               {{ view.question.qtext }}
             </div>
             <div class="panel-footer">
-                Tags: {% for tag in view.question.tag.all %}<a href="#"><mark class="muted">{{ tag.ttext }}</mark></a>  {% endfor %}
+                Tags: {% for tag in view.question.tag.all %}<a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a>  {% endfor %}
             </div>
           </div>
         </div>
