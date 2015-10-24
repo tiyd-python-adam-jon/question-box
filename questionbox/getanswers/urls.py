@@ -8,5 +8,8 @@ urlpatterns = [
 
     url(r'^questions/$', ga_views.question_page, name='question_page'),
 
-    url(r'^$', ga_views.QuestionListView.as_view(), name='question_list')
+    url(r'^questions/(?P<pk>\d+)/$',
+        ga_views.AnswerListView.as_view(), name='answer_list'),
+
+    url(r'^$', ga_views.QuestionListView.as_view(), name='question_list'),
 ]

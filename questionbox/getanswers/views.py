@@ -1,18 +1,17 @@
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login   # , logout
+from django.contrib.auth import authenticate, login, logout
 from .models import Profile, Tag, Question
 # from datetime import datetime  # , timedelta
 from django.contrib import messages
 # from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 # from django.core.urlresolvers import reverse
-from django.shortcuts import redirect, render  # , get_object_or_404
-from django.utils.timezone import make_aware
+from django.shortcuts import redirect, render, get_object_or_404
+# from django.utils.timezone import make_aware
 # from django.db.models import Count
-# from django.views import generic
-from .forms import QuestionForm
+from .forms import QuestionForm, AnswerForm
 # Create your views here.
 
 
@@ -68,6 +67,31 @@ def add_question(request):
     return redirect(request.GET['next'])
 
 
+# @login_required
+def add_answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            # TODO: put question=xx in query string
+            q_pk = request.GET['pk']
+            answer.question = get_object_or_404(Question, pk=q_pk)
+            # answer.asker = request.user.profile
+            answer.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'You successfully posted your answer')
+        else:
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 'Form data invalid, complete required fields')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.GET['next'])
+
+
 class QuestionListView(ListView):
     """Used to view a list of questions in reverse chronological order
     Used for home page"""
@@ -79,3 +103,15 @@ class QuestionListView(ListView):
     def get_queryset(self):
         preload = Question.objects.all()
         return preload.order_by('-timestamp')
+
+
+class AnswerListView(ListView):
+    template_name = 'getanswers/answer_list.html'
+    context_object_name = 'answers'
+    # paginate_by = 20
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+            self.form = AnswerForm()
+            self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
+            return self.question.answer_set.all()
