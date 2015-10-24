@@ -7,4 +7,6 @@ urlpatterns = [
         ga_views.add_question, name='add_question'),
 
     url(r'^questions/$', ga_views.question_page, name='question_page'),
+
+    url(r'^$', ga_views.QuestionListView.as_view(), name='question_list')
 ]
