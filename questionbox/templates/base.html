@@ -56,7 +56,7 @@
         {% endcomment %}
           {% if user.is_authenticated %}
           <li role="presentation">
-            <a href="#">{{user.username}}</a>
+            <a href="#">{{user.username}}</a>  <!-- TODO: link this to profile page -->
           </li>
           <li role="presentation">
             <a href="{% url 'logout' %}?next={% firstof request.path '/' %}">Logout</a>
