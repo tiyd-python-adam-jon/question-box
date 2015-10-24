@@ -47,6 +47,7 @@ def add_question(request):
             question = form.save(commit=False)
             question.asker = request.user.profile
             question.asker.points += 5
+            question.asker.save()
             question.save()
             for t in request.POST['taglist'].split(sep=','):
                 tag = Tag(ttext=t.strip())
@@ -116,8 +117,9 @@ def downvote_answer(request, pk):
         answer.score -= 1
         answer.save()
         answer.answerer.points -= 5
+        answer.answerer.save()
         request.user.profile.points -= 1
-        request.user.save()
+        request.user.profile.save()
         messages.add_message(request,
                              messages.SUCCESS,
                              'You successfully downvoted that answer')
