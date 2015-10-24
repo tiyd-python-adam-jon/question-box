@@ -111,7 +111,6 @@ class AnswerListView(ListView):
     # paginate_by = 20
 
     def get_queryset(self):
-        if self.request.user.is_authenticated():
-            self.form = AnswerForm()
-            self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
-            return self.question.answer_set.all()
+        self.form = AnswerForm()
+        self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
+        return self.question.answer_set.all()

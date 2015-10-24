@@ -1,5 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Answer Page</h1>
+
+  <div class="container">
+    <div class="col-md-10">
+      {% comment %}
+        This is where the question goes, with all of its information
+        - panel
+        - leave last two columns open for tags to float
+      {% endcomment %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><b>{{ view.question.title }}</b></h3>
+        </div>
+        <div class="panel-body">
+          {{ view.question.qtext }}
+        </div>
+      </div>
+      <br>
+      
+      {% for answer in answers %}
+      <div class="panel panel-default">
+        <div class="panel-body">
+          {{ answer.atext }}
+        </div>
+        <div class="panel-footer">{{ answer.asker }}, answered on {{ answer.timestamp }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
 {% endblock %}
