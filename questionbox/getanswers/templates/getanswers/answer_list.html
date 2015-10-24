@@ -47,20 +47,22 @@
       </div>
       {% endfor %}
     </div>
-
-    <div class="row">
-      <div class="col-md-1">
+    {% if user.is_authenticated %}
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-9">
+          <form method="POST" action="{% url 'add_answer' view.question.pk %}?next={{ request.path }}">
+            {% csrf_token %}
+              {{ view.form.as_p }}
+              <input type="submit" class="btn btn-md btn-primary pull-right" value="Submit Answer">
+          </form>
+        </div>
       </div>
-      <div class="col-md-9">
-        <form method="POST" action="{% url 'add_answer' view.question.pk %}?next={{ request.path }}">
-          {% csrf_token %}
-            {{ view.form.as_p }}
-            <input type="submit" class="btn btn-md btn-primary pull-right" value="Submit Answer">
-        </form>
-      </div>
-    </div>
+    {% endif %}
 
   </div>
+
   <div class="col-md-2">
     {% for tag in view.question.tag.all %}
     <div class="row">
