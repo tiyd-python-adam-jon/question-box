@@ -12,7 +12,7 @@
 </header>
 <!--  TODO: Add links to detail pages-->
 {% for question in questions %}
-<a href="#"><p>{{ question.title }}</p></a>
+<a href="{% url 'answer_list' question.pk %}"><p>{{ question.title }}</p></a>
 <p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
 {% endfor %}
 
