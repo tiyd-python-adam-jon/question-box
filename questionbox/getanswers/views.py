@@ -1,7 +1,8 @@
 from django.views.generic.edit import FormView
+from django.views.generic.list import ListView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login   # , logout
-from .models import Profile, Tag
+from .models import Profile, Tag, Question
 # from datetime import datetime  # , timedelta
 from django.contrib import messages
 # from django.contrib.auth.decorators import login_required
@@ -65,3 +66,16 @@ def add_question(request):
                              messages.ERROR,
                              'Stop trying to hack this site!')
     return redirect(request.GET['next'])
+
+
+class QuestionListView(ListView):
+    """Used to view a list of questions in reverse chronological order
+    Used for home page"""
+
+    template_name = 'getanswers/question_list.html'
+    context_object_name = 'questions'
+    paginate_by = 10
+
+    def get_queryset(self):
+        preload = Question.objects.all()
+        return preload.order_by('-timestamp')
