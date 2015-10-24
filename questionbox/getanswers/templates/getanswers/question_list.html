@@ -24,4 +24,10 @@
   </div>
 {% endif %}
 
+{% if user.is_authenticated %}
+  <h4>Do you still have questions?  Ask one <a href="{% url 'question_form' %}">here</a>.
+{% else %}
+  <h4>Do you still have questions?  <a href="{% url 'login' %}?next={% url 'question_form' %}">Login</a> or <a href="{% url 'register' %}?next={% url 'question_form' %}">Register</a> to ask yours.</h4>
+{% endif %}
+
 {% endblock %}

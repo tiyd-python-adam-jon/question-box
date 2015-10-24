@@ -18,11 +18,15 @@
 </head>
 <body>
   <div class="container">
+    {% if user.is_authenticated %}
     <form method="POST" action="{% url 'add_question' %}?next={{ request.path }}">
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" class="btn btn-md btn-primary" value="Submit Question">
     </form>
+    {% else %}
+    <h4>Please <a href="{% url 'login' %}?next={% firstof request.path '/' %}">Login</a> or <a href="{% url 'register' %}?next={% firstof request.path '/' %}">Register</a> to submit a question.</h4>
+    {% endif %}
   </div>
 </body>
 
