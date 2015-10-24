@@ -95,7 +95,7 @@ def add_answer(request, pk):
 def upvote_answer(request, pk):
     if request.method == 'GET':  # TODO: Make this possible to come in as POST
         answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
-        answer.score += 10
+        answer.score += 1
         answer.save()
         answer.answerer.points += 10
         answer.answerer.save()
@@ -113,7 +113,7 @@ def upvote_answer(request, pk):
 def downvote_answer(request, pk):
     if request.method == 'GET':  # TODO: Make this possible to come in as POST
         answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
-        answer.score -= 5
+        answer.score -= 1
         answer.save()
         answer.answerer.points -= 5
         request.user.profile.points -= 1
