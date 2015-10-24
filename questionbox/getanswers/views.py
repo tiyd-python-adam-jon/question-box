@@ -1,11 +1,11 @@
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
-from .models import Profile, Tag, Question
+from django.contrib.auth import authenticate, login  # , logout
+from .models import Profile, Tag, Question, Answer
 # from datetime import datetime  # , timedelta
 from django.contrib import messages
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 # from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -45,7 +45,9 @@ def add_question(request):
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            # question.asker = request.user.profile
+            question.asker = request.user.profile
+            question.asker.points += 5
+            question.asker.save()
             question.save()
             for t in request.POST['taglist'].split(sep=','):
                 tag = Tag(ttext=t.strip())
@@ -90,6 +92,44 @@ def add_answer(request, pk):
     return redirect(request.GET['next'])
 
 
+@login_required
+def upvote_answer(request, pk):
+    if request.method == 'GET':  # TODO: Make this possible to come in as POST
+        answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
+        answer.score += 1
+        answer.save()
+        answer.answerer.points += 10
+        answer.answerer.save()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'You successfully upvoted that answer')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.GET['next'])
+
+
+@login_required
+def downvote_answer(request, pk):
+    if request.method == 'GET':  # TODO: Make this possible to come in as POST
+        answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
+        answer.score -= 1
+        answer.save()
+        answer.answerer.points -= 5
+        answer.answerer.save()
+        request.user.profile.points -= 1
+        request.user.profile.save()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'You successfully downvoted that answer')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.GET['next'])
+
+
 class QuestionListView(ListView):
     """Used to view a list of questions in reverse chronological order
     Used for home page"""
@@ -111,4 +151,4 @@ class AnswerListView(ListView):
     def get_queryset(self):
         self.form = AnswerForm()
         self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
-        return self.question.answer_set.all()
+        return self.question.answer_set.all().order_by('-score')
