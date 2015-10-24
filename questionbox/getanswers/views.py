@@ -72,7 +72,7 @@ class QuestionListView(ListView):
     """Used to view a list of questions in reverse chronological order
     Used for home page"""
 
-    template_name = 'getanswers/user_list.html'
+    template_name = 'getanswers/question_list.html'
     context_object_name = 'questions'
     paginate_by = 10
 
