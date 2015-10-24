@@ -27,7 +27,7 @@
         <div class="col-md-1">
           {# TODO: make up and down vote functions #}
           <div class="row">
-            <a href="#"><span class="glyphicon glyphicon-chevron-up text-muted pull-right"></span></a>
+            <a href="{% url 'upvote_answer' view.question.pk %}?next={{ request.path }};answerpk={{ answer.pk }}"><span class="glyphicon glyphicon-chevron-up text-muted pull-right"></span></a>
           </div>
           <div class="row">
             <span class="pull-right"><b>{{ answer.score }}</b>&nbsp;<span>

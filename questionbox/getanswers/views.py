@@ -92,13 +92,32 @@ def add_answer(request, pk):
 
 
 @login_required
-def upvote_answer(request):
-    if request.method == 'POST':
-        answer = get_object_or_404(Answer, pk=request.GET['pk'])
+def upvote_answer(request, pk):
+    if request.method == 'GET':  # TODO: Make this possible to come in as POST
+        answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
         answer.score += 10
         answer.save()
         answer.answerer.points += 10
         answer.answerer.save()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'You successfully upvoted that answer')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.GET['next'])
+
+
+@login_required
+def downvote_answer(request, pk):
+    if request.method == 'GET':  # TODO: Make this possible to come in as POST
+        answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
+        answer.score -= 5
+        answer.save()
+        answer.answerer.points -= 5
+        request.user.profile.points -= 1
+        request.user.save()
         messages.add_message(request,
                              messages.SUCCESS,
                              'You successfully upvoted that answer')
