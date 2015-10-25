@@ -51,7 +51,7 @@ def add_question(request):
             question.asker.points += 5
             question.asker.save()
             question.save()
-            for t in request.POST['taglist'].split(sep=','):
+            for t in request.POST['taglist'].lower().split(sep=','):
                 t = t.strip()
                 try:
                     tag = Tag.objects.get(ttext=t)
