@@ -24,13 +24,13 @@ urlpatterns = [
         ga_views.add_answer, name='add_answer'),
 
     url(r'^profile/(?P<pk>\d+)/answers$',
-        ga_views.ProfileAnswers.as_view(), name='profile_answers'),
+        ga_views.ProfileAnswersView.as_view(), name='profile_answers'),
 
     url(r'^profile/(?P<pk>\d+)/questions$',
-        ga_views.ProfileQuestions.as_view(), name='profile_questions'),
+        ga_views.ProfileQuestionsView.as_view(), name='profile_questions'),
 
     url(r'^profile/(?P<pk>\d+)/$',
-        ga_views.ProfileDetail.as_view(), name='profile_detail'),
+        ga_views.ProfileDetailView.as_view(), name='profile_detail'),
 
     url(r'^$', ga_views.QuestionListView.as_view(), name='home'),
 ]
