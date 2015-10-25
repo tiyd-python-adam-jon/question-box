@@ -7,32 +7,40 @@
 
 {% block content %}
 
-<header>
-  <h3>Recently asked questions:</h3>
-</header>
-<br>
-<!--  TODO: Add links to detail pages-->
-{% for question in questions %}
-<a href="{% url 'answer_list' question.pk %}"><p>{{ question.title }}</p></a>
-<p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
-<br>
-{% endfor %}
+<div class="container">
+  <div class="col-md-8">
+    <div class="row">
+      <h3>Recently asked questions:</h3>
+    </div>
+    <br>
+    {% for question in questions %}
+    <a href="{% url 'answer_list' question.pk %}"><p>{{ question.title }}</p></a>
+    <p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
+    <br>
+    {% endfor %}
 
-{% if questions|length > 10 %}
-  <div class="text-center">
-    {% bootstrap_pagination page_obj pages_to_show=5 %}
+    {% if questions|length > 10 %}
+      <div class="text-center">
+        {% bootstrap_pagination page_obj pages_to_show=5 %}
+      </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      <h4>Do you still have questions?  Ask one <a href="{% url 'question_form' %}">here</a>.
+    {% else %}
+      <h4>Do you still have questions?  <a href="{% url 'login' %}?next={% url 'question_form' %}">Login</a> or <a href="{% url 'register' %}?next={% url 'question_form' %}">Register</a> to ask yours.</h4>
+    {% endif %}
   </div>
-{% endif %}
 
-{% if user.is_authenticated %}
-  <h4>Do you still have questions?  Ask one <a href="{% url 'question_form' %}">here</a>.
-{% else %}
-  <h4>Do you still have questions?  <a href="{% url 'login' %}?next={% url 'question_form' %}">Login</a> or <a href="{% url 'register' %}?next={% url 'question_form' %}">Register</a> to ask yours.</h4>
-{% endif %}
-
-{% for tag in view.alltags %}
-<div class="row">
-  <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
+  <div class="col-md-2">
+    <div class="row">
+      <h3>Top Tags</h3>
+    </div>
+    {% for tag in view.alltags %}
+    <div class="row">
+      <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
+    </div>
+    {% endfor %}
+  </div>
 </div>
-{% endfor %}
 {% endblock %}
