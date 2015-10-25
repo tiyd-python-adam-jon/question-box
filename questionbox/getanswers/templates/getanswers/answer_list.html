@@ -42,17 +42,17 @@
               {% csrf_token %}
               <input type="hidden" name="answerpk" value="{{ answer.pk }}">
               <input type="hidden" name="next" value="{{ request.path }}">
-              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-up"></span></button>
+              <button type="submit" class="btn btn-xs btn-info pull-right" title="Upvote this answer"><span class="glyphicon glyphicon-chevron-up"></span></button>
             </form>
             {% if answer.accepted %}
-              <span class="glyphicon glyphicon-ok btn-success pull-left"></span>
+              <span class="glyphicon glyphicon-ok btn-success pull-left" title="Answer accepted by asker"></span>
             {% endif %}
             {% if request.user.profile == view.question.asker and not view.question.answered %}
               <form method="POST" action="{% url 'accept_answer' view.question.pk %}">
                 {% csrf_token %}
                 <input type="hidden" name="answerpk" value="{{ answer.pk }}">
                 <input type="hidden" name="next" value="{{ request.path }}">
-                <button type="submit" class="btn btn-xs btn-warning pull-left"><span class="glyphicon glyphicon-ok"></span></button>
+                <button type="submit" class="btn btn-xs btn-warning pull-left" title="Accept answer"><span class="glyphicon glyphicon-ok"></span></button>
               </form>
             {% endif %}
           </div>
@@ -64,7 +64,7 @@
               {% csrf_token %}
               <input type="hidden" name="answerpk" value="{{ answer.pk }}">
               <input type="hidden" name="next" value="{{ request.path }}">
-              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-down"></span></button>
+              <button type="submit" class="btn btn-xs btn-info pull-right" title="Downvote this answer (-1 your points)"><span class="glyphicon glyphicon-chevron-down"></span></button>
             </form>
           </div>
         </div>
