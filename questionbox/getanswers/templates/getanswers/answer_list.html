@@ -37,7 +37,6 @@
       {% for answer in answers %}
       <div class="row">
         <div class="col-md-1">
-          {# TODO: make up and down vote functions #}
           <div class="row">
             <form method="POST" action="{% url 'upvote_answer' view.question.pk %}">
               {% csrf_token %}

@@ -100,12 +100,13 @@ def add_answer(request, pk):
 
 @login_required
 def upvote_answer(request, pk):
-    if request.method == 'POST':  # TODO: Make this possible to come in as POST
+    if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
         answer.score += 1
         answer.save()
-        answer.answerer.points += 10
-        answer.answerer.save()
+        answerer = answer.answerer
+        answerer.points += 10
+        answerer.save()
         messages.add_message(request,
                              messages.SUCCESS,
                              'You successfully upvoted that answer')
@@ -118,17 +119,38 @@ def upvote_answer(request, pk):
 
 @login_required
 def downvote_answer(request, pk):
-    if request.method == 'POST':  # TODO: Make this possible to come in as POST
+    if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
         answer.score -= 1
         answer.save()
-        answer.answerer.points -= 5
-        answer.answerer.save()
-        request.user.profile.points -= 1
-        request.user.profile.save()
+        answerer = answer.answerer
+        answerer.points -= 5
+        answerer.save()
+        downvoter = request.user.profile
+        downvoter.points -= 1
+        downvoter.save()
         messages.add_message(request,
                              messages.SUCCESS,
                              'You successfully downvoted that answer')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.POST['next'])
+
+
+@login_required
+def accept_answer(request, pk):
+    if request.method == 'POST':
+        answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
+        answer.accepted = True
+        answer.save()
+        answerer = answer.answerer
+        answerer.points += 100
+        answerer.save()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'You successfully upvoted that answer')
     else:
         messages.add_message(request,
                              messages.ERROR,
