@@ -174,7 +174,14 @@ class ProfileDetailView(DetailView):
 
 
 class ProfileQuestionsView(ListView):
-    pass
+    template_name = 'getanswers/profile_questions.html'
+    context_object_name = 'questions'
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        self.username = self.profile.user
+        return self.profile.question_set.all().order_by('-timestamp')
 
 
 class ProfileAnswersView(ListView):
