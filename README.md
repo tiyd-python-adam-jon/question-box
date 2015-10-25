@@ -2,8 +2,8 @@
 
 ### A Website to Source Answers to Your Burning Questions
 
-* `https://boiling-savannah-6958.herokuapp.com/` homepage on web
-* `localhost/` homepage in local deployment
+* Website location: **`https://boiling-savannah-6958.herokuapp.com/`**
+* Local deployment location: `localhost:[PORT]/` where `[PORT]` is usually `5000` for heroku local and `8000` for Django
 
 ## About This Site
 
