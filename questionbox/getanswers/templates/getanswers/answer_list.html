@@ -44,6 +44,17 @@
               <input type="hidden" name="next" value="{{ request.path }}">
               <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-up"></span></button>
             </form>
+            {% if answer.accepted %}
+              <span class="glyphicon glyphicon-ok btn-success pull-left"></span>
+            {% endif %}
+            {% if request.user.profile == view.question.asker and not view.question.answered %}
+              <form method="POST" action="{% url 'accept_answer' view.question.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="answerpk" value="{{ answer.pk }}">
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit" class="btn btn-xs btn-warning pull-left"><span class="glyphicon glyphicon-ok"></span></button>
+              </form>
+            {% endif %}
           </div>
           <div class="row">
             <span class="pull-right"><b>{{ answer.score }}</b>{% if answer.score < 100 %}&nbsp;&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>

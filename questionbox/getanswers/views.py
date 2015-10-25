@@ -143,14 +143,17 @@ def downvote_answer(request, pk):
 def accept_answer(request, pk):
     if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
+        question = get_object_or_404(Question, pk=pk)
         answer.accepted = True
         answer.save()
         answerer = answer.answerer
         answerer.points += 100
         answerer.save()
+        question.answered = True
+        question.save()
         messages.add_message(request,
                              messages.SUCCESS,
-                             'You successfully upvoted that answer')
+                             'You successfully accepted that answer')
     else:
         messages.add_message(request,
                              messages.ERROR,
