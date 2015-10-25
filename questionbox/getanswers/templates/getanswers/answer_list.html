@@ -8,20 +8,21 @@
       <div class="row">
         <div class="col-md-1">
           {# This is space to put something beside the question panel #}
+
         </div>
         <div class="col-md-9">
           <div class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title"><b>{{ view.question.title }}</b></h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="word-wrap:break-word">
               {{ view.question.qtext }}
             </div>
             <div class="panel-footer">
                 <small><b>{{ view.question.asker }}</b> asked on {{ view.question.timestamp }}</small>
               <div class="pull-right">
                 {% for tag in view.question.tag.all %}
-                  <small><a href="#" class="text-muted">{{ tag.ttext }}</a></small>&nbsp;
+                  <small><a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a></small>&nbsp;
                 {% endfor %}
               </div>
             </div>
@@ -29,7 +30,10 @@
         </div>
       </div>
       <br>
+      <div class="row">
 
+      </div>
+      <br>
       {% for answer in answers %}
       <div class="row">
         <div class="col-md-1">
