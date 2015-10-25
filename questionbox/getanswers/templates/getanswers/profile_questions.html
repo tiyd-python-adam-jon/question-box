@@ -3,7 +3,6 @@
 {% block content %}
 
 <div class="container">
-
   <div class="col-md-10">
     <div class="row">
       <div class="col-md-1">
@@ -26,13 +25,16 @@
     </div>
     <div class="row">
 
+
     </div>
   </div>
     <div class="col-md-1">
       {# left side padding #}
     </div>
     <div class="col-md-9">
-
+      <div class="pull-right">
+        <a href="{% url 'profile_answers' view.profile.pk %}">Answers</a><a href="#">Questions</a>
+      </div>
     </div>
 
 <div class="container">
