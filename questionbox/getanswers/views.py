@@ -151,4 +151,6 @@ class AnswerListView(ListView):
     def get_queryset(self):
         self.form = AnswerForm()
         self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
-        return self.question.answer_set.all().order_by('-score')
+        self.alltags = Tag.objects.all()
+        return self.question.answer_set.all().order_by('-score') \
+            .prefetch_related('answerer')

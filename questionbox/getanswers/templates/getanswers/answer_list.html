@@ -17,7 +17,15 @@
             <div class="panel-body">
               {{ view.question.qtext }}
             </div>
-          </div>
+            <div class="panel-footer">
+                <small><b>{{ view.question.asker }}</b> asked on {{ view.question.timestamp }}</small>
+              <div class="pull-right">
+                {% for tag in view.question.tag.all %}
+                  <small><a href="#" class="text-muted">{{ tag.ttext }}</a></small>&nbsp;
+                {% endfor %}
+              </div>
+            </div>
+          </div> {# end panel #}
         </div>
       </div>
       <br>
@@ -35,7 +43,7 @@
             </form>
           </div>
           <div class="row">
-            <span class="pull-right"><b>{{ answer.score }}</b>&nbsp;{%if answer.score < 10 %}&nbsp;{% endif %}<span>
+            <span class="pull-right"><b>{{ answer.score }}</b>{% if answer.score < 100 %}&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>
           </div>
           <div class="row">
             <form method="POST" action="{% url 'downvote_answer' view.question.pk %}">
@@ -53,7 +61,7 @@
             </div>
             <div class="panel-footer">
               <div>
-                <small><b>{{ answer.answerer }}</b>, answered on {{ answer.timestamp }}</small>
+                <small><b>{{ answer.answerer }}</b> answered on {{ answer.timestamp }}</small>
               </div>
             </div> {# end panel-footer #}
           </div>
@@ -79,7 +87,7 @@
   </div>
 
   <div class="col-md-2">
-    {% for tag in view.question.tag.all %}
+    {% for tag in view.alltags %}
     <div class="row">
       <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
     </div>
