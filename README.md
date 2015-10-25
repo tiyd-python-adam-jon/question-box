@@ -32,7 +32,7 @@ Located in the navbar at the top of every page; login and registration links sho
 Located at `host/profiles/[profile_id]`, where `profile_id` is the numerical id of the profile. These are more easily accessed through the interface by clicking on a person's name or, for logged in users, view their own page by clicking on their name on the navbar.
 -->
 
-### System Requirements
+## System Requirements
 
 * To run locally, you will need to have **Python&nbsp;3** installed on your machine. See [Python's site](https://www.python.org/) for details.
 
@@ -47,7 +47,7 @@ Located at `host/profiles/[profile_id]`, where `profile_id` is the numerical id 
 * **Running the site with Django** requires more command line. Navigate to `question-box/questionbox` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
 
 * **Running the site with your own heroku local/web** requires that you have your machine set up with [heroku and heroku toolbelt](https://devcenter.heroku.com/articles/getting-started-with-python#set-up) and [create a heroku account](https://signup.heroku.com/).
- * Once you have these installed and have a heroku account, navigate to the `question-box` directory and run the following commands:
+ * Once you have these installed and have a heroku account, navigate to the `question-box` directory and run the following commands (making note of and copying the secret key when it is generated):
  ```
  $ heroku create
  $ heroku config:set DJANGO_SETTINGS_MODULE=questionbox.heroku_settings
@@ -55,7 +55,7 @@ Located at `host/profiles/[profile_id]`, where `profile_id` is the numerical id 
  $ heroku config:set SECRET_KEY=`python -c 'import random; print("".join([random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for i in range(50)]))'`
  ```
 
- * Now, create a new file in the `question-box` directory called `.env` with the following contents where `[your_secret_key]` is replaced with the secret key used in your own heroku server from the previous step:
+ * Now, create a new file in the `question-box` directory called `.env` with the following contents where `[your_secret_key]` is replaced with the secret key generated in the previous step:
  ```
  DATABASE_URL=postgres:///questionbox
  DJANGO_SETTINGS_MODULE=questionbox.heroku_settings
@@ -63,7 +63,7 @@ Located at `host/profiles/[profile_id]`, where `profile_id` is the numerical id 
  SECRET_KEY=[your_secret_key]
  ```
 
- * Next, navigate to the `question-box` directory and run the following commands to first, collect the static files (e.g., css files), and then deploy heroku locally (usually located at `localhost:5000`). Again, this will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
+ * Next, navigate to the `question-box` directory and run the following commands to first collect the static files (e.g., css files), and then deploy heroku locally (usually located at `localhost:5000`). Again, this will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
  ```
  $ python questionbox/manage.py collectstatic
  $ heroku local web
