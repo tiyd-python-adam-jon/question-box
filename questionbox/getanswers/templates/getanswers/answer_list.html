@@ -19,9 +19,14 @@
               {{ view.question.qtext }}
             </div>
             <div class="panel-footer">
-                Tags: {% for tag in view.question.tag.all %}<a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a>  {% endfor %}
+                <small><b>{{ view.question.asker }}</b> asked on {{ view.question.timestamp }}</small>
+              <div class="pull-right">
+                {% for tag in view.question.tag.all %}
+                  <small><a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a></small>&nbsp;
+                {% endfor %}
+              </div>
             </div>
-          </div>
+          </div> {# end panel #}
         </div>
       </div>
       <br>
@@ -34,13 +39,23 @@
         <div class="col-md-1">
           {# TODO: make up and down vote functions #}
           <div class="row">
-            <a href="{% url 'upvote_answer' view.question.pk %}?next={{ request.path }};answerpk={{ answer.pk }}"><span class="glyphicon glyphicon-chevron-up text-muted pull-right"></span></a>
+            <form method="POST" action="{% url 'upvote_answer' view.question.pk %}">
+              {% csrf_token %}
+              <input type="hidden" name="answerpk" value="{{ answer.pk }}">
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            </form>
           </div>
           <div class="row">
-            <span class="pull-right"><b>{{ answer.score }}</b>{%if answer.score < 10 %}&nbsp;{% endif %}<span>
+            <span class="pull-right"><b>{{ answer.score }}</b>{% if answer.score < 100 %}&nbsp;&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>
           </div>
           <div class="row">
-            <a href="{% url 'downvote_answer' view.question.pk %}?next={{ request.path }};answerpk={{ answer.pk }}"><span class="glyphicon glyphicon-chevron-down text-muted pull-right"></span></a>
+            <form method="POST" action="{% url 'downvote_answer' view.question.pk %}">
+              {% csrf_token %}
+              <input type="hidden" name="answerpk" value="{{ answer.pk }}">
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-down"></span></button>
+            </form>
           </div>
         </div>
         <div class="col-md-9">
@@ -48,7 +63,11 @@
             <div class="panel-body">
               {{ answer.atext }}
             </div>
-            <div class="panel-footer"><small><b>{{ answer.answerer }}</b>, answered on {{ answer.timestamp }}</small></div>
+            <div class="panel-footer">
+              <div>
+                <small><b>{{ answer.answerer }}</b> answered on {{ answer.timestamp }}</small>
+              </div>
+            </div> {# end panel-footer #}
           </div>
         </div>
       </div>
@@ -62,7 +81,7 @@
         <form method="POST" action="{% url 'add_answer' view.question.pk %}?next={{ request.path }}">
           {% csrf_token %}
             {{ view.form.as_p }}
-            <input type="submit" class="btn btn-md btn-primary pull-right" value="Submit Answer">
+            <button type="submit" class="btn btn-md btn-primary pull-right">give<b>answer</b></button>
         </form>
         {% else %}
         <h4>Do you have the right answer?  <a href="{% url 'login' %}?next={% firstof request.path '/' %}">Login</a> or <a href="{% url 'register' %}?next={% firstof request.path '/' %}">Register</a> to help.</h4>
@@ -72,7 +91,7 @@
   </div>
 
   <div class="col-md-2">
-    {% for tag in view.question.tag.all %}
+    {% for tag in view.alltags %}
     <div class="row">
       <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
     </div>

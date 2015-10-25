@@ -100,8 +100,8 @@ def add_answer(request, pk):
 
 @login_required
 def upvote_answer(request, pk):
-    if request.method == 'GET':  # TODO: Make this possible to come in as POST
-        answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
+    if request.method == 'POST':  # TODO: Make this possible to come in as POST
+        answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
         answer.score += 1
         answer.save()
         answer.answerer.points += 10
@@ -113,13 +113,13 @@ def upvote_answer(request, pk):
         messages.add_message(request,
                              messages.ERROR,
                              'Stop trying to hack this site!')
-    return redirect(request.GET['next'])
+    return redirect(request.POST['next'])
 
 
 @login_required
 def downvote_answer(request, pk):
-    if request.method == 'GET':  # TODO: Make this possible to come in as POST
-        answer = get_object_or_404(Answer, pk=request.GET['answerpk'])
+    if request.method == 'POST':  # TODO: Make this possible to come in as POST
+        answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
         answer.score -= 1
         answer.save()
         answer.answerer.points -= 5
@@ -133,7 +133,7 @@ def downvote_answer(request, pk):
         messages.add_message(request,
                              messages.ERROR,
                              'Stop trying to hack this site!')
-    return redirect(request.GET['next'])
+    return redirect(request.POST['next'])
 
 
 class QuestionListView(ListView):
@@ -158,4 +158,7 @@ class AnswerListView(ListView):
     def get_queryset(self):
         self.form = AnswerForm()
         self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
-        return self.question.answer_set.all().order_by('-score')
+        self.alltags = Tag.objects.annotate(num_qs=Count('questions')) \
+            .order_by('-num_qs')[:20]
+        return self.question.answer_set.all().order_by('-score') \
+            .prefetch_related('answerer')
