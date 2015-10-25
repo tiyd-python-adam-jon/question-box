@@ -15,7 +15,7 @@
     <br>
     {% for question in questions %}
     <a href="{% url 'answer_list' question.pk %}"><p>{{ question.title }}</p></a>
-    <p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
+    <p><small>has gotten {{ question.answer_set.count }} answer{{ question.answer_set.count|pluralize }} in {{ question.timestamp | timesince }}</small></p>
     <br>
     {% endfor %}
 
