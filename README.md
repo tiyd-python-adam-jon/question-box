@@ -9,30 +9,23 @@
 
 * You will need to have **Python&nbsp;3** installed on your machine or have access to a Python&nbsp;3 interpreter. See [Python's site](https://www.python.org/) for details.
 
-* Copy this repo to your computer; the below assumes you have kept the default folder name as `urly-bird`.
+* Copy this repo to your computer; the below assumes you have kept the default folder name as `question-box`.
 
 * You will need to make sure that you have a virtual environment running Python&nbsp;3 in the folder that you made in the above step. [See this site for details if you're not familiar.](http://docs.python-guide.org/en/latest/dev/virtualenvs/) **Complete this step before attempting the below.**
 
 * Using your favorite command line program (e.g., Terminal on Mac&nbsp;OS&nbsp;X), install the requirements file in your virtual environment: `pip install -r requirements.txt`.
 
-* **To create some fake data**, you will need to run some shell commands. Navigate to the `urly-bird/urlybird` folder and confirm that you see the `manage.py` file. Then run the following lines **in order**. (Note that creating the clickstodb takes ~40 minutes on a 2015 MacBookPro.)
-```
-$ python manage.py migrate
-$ python manage.py userstodb
-$ python manage.py wormstodb
-$ python manage.py clickstodb
-$ python manage.py updatenumclicks
-```
+* This app is set up to run on PostgreSQL. It is set it up to have a local (development) database named `questionbox` with a user of `questionbox` and a password of `password`. The database name, user, and password can all be configured to your preferences in the `question-box/questionbox/questionbox/settings.py` file. If you do not have PostgreSQL on your machine, follow [these instructions](https://github.com/tiyd-python-2015-08/course-resources/blob/master/week7/PostgreSQL-and-Django.md).
 
-* **Running the site** requires more command line. Navigate to `urly-bird/urlybird` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
+* **Running the site** requires more command line. Navigate to `question-box/questionbox` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
 
 ## About This Site
 
-### Recent Worms
-Located at `localhost/`, where `localhost` is the location of your Django server. Shows all worms on the site, arranged by creation/modification date.
+### Homepage / Questions
+Located at `host/` and also `host/questions`, where `host` is the location of your server (usually `localhost:8000` if using Django's `runserver`). Shows all questions on the site, arranged to show newest questions at the top.
 
-### Most Popular Worms – Last 30 Days
-Located at `localhost/pop30`, where `localhost` is the location of your Django server. Shows all worms created/modified on the site within the last 30 days, arranged by number of clicks.
+### Question Pages
+Located at `host/questions/[question_id]`, where `host` is the location of your Django server. Shows all worms created/modified on the site within the last 30 days, arranged by number of clicks.
 
 
 ### Most Popular Worms – All-Time
