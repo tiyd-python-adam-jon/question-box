@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-1">
+        {# left side padding #}
+      </div>
+      <div class="col-md-9">
+        {# profile overview #}
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <strong>{{ view.profile }}</strong>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <p>Score: {{ view.profile.points }}</p>
+            <p>Member Since {{ view.profile.date_created|date }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+  </div>
+    <div class="col-md-1">
+      {# left side padding #}
+    </div>
+    <div class="col-md-9">
+
+    </div>
+
+<div class="container">
+  <div class="col-md-10">
+    <div class="col-md-1">
+      {# left side padding #}
+    </div>
+    <div class="col-md-9">
+      <h1>This will be a list of questions</h1>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-2">
+</div>
+
+</div>
+{% endblock %}
