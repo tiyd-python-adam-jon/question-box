@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^questions/(?P<pk>\d+)/add$',
         ga_views.add_answer, name='add_answer'),
 
-    url(r'^$', ga_views.question_list, name='home'),
+    url(r'^$', ga_views.QuestionListView.as_view(), name='home'),
 ]
