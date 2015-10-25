@@ -1,5 +1,6 @@
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login  # , logout
 from .models import Profile, Tag, Question, Answer
@@ -162,3 +163,15 @@ class AnswerListView(ListView):
             .order_by('-num_qs')[:20]
         return self.question.answer_set.all().order_by('-score') \
             .prefetch_related('answerer')
+
+
+class ProfileDetail(DetailView):
+    pass
+
+
+class ProfileQuestions(ListView):
+    pass
+
+
+class ProfileAnswers(ListView):
+    pass
