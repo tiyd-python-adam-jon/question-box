@@ -2,16 +2,6 @@
 
 {% block content %}
 
-{% block head %}
-{% load bootstrap3 %}
-{% load staticfiles %}
-{% load bootstrap_themes %}
-  {% bootstrap_styles theme='cosmo' type='min.css' %}
-  {% bootstrap_css %}
-  {% bootstrap_javascript jquery=True %}
-  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
-{% endblock %}
-
 <div class="container">
   <div class="col-md-10">
     <div class="row">
