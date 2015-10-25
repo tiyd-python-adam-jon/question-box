@@ -12,6 +12,8 @@ from django.shortcuts import redirect, render, get_object_or_404
 # from django.utils.timezone import make_aware
 # from django.db.models import Count
 from .forms import QuestionForm, AnswerForm
+from django.core.paginator import Paginator
+
 # Create your views here.
 
 
@@ -50,8 +52,12 @@ def add_question(request):
             question.asker.save()
             question.save()
             for t in request.POST['taglist'].split(sep=','):
-                tag = Tag(ttext=t.strip())
-                tag.save()
+                t = t.strip()
+                try:
+                    tag = Tag.objects.get(ttext=t)
+                except:
+                    tag = Tag(ttext=t)
+                    tag.save()
                 question.tag.add(tag)
                 question.save()
 
@@ -141,6 +147,14 @@ class QuestionListView(ListView):
     def get_queryset(self):
         preload = Question.objects.all()
         return preload.order_by('-timestamp')
+
+
+def tag_list_short():
+    return Tag.objects.all().order_by()
+
+
+def question_list(request):
+    questions = Paginator(Question.objects.all().order_by('-timestamp'), 10)
 
 
 class AnswerListView(ListView):
