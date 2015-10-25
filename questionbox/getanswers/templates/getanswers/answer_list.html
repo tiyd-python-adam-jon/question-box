@@ -91,9 +91,13 @@
   </div>
 
   <div class="col-md-2">
+    <div class"row">
+      <h3>Top Tags</h3>
+      <hr>
+    </div>
     {% for tag in view.alltags %}
     <div class="row">
-      <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a></p>
     </div>
     {% endfor %}
   </div>
