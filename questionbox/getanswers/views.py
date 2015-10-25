@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 # from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 # from django.utils.timezone import make_aware
-# from django.db.models import Count
+from django.db.models import Count
 from .forms import QuestionForm, AnswerForm
 # Create your views here.
 
@@ -151,6 +151,6 @@ class AnswerListView(ListView):
     def get_queryset(self):
         self.form = AnswerForm()
         self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
-        self.alltags = Tag.objects.all()
+        self.alltags = Tag.objects.annotate(num_qs=Count('questions')).order_by('-num_qs')[:20]
         return self.question.answer_set.all().order_by('-score') \
             .prefetch_related('answerer')
