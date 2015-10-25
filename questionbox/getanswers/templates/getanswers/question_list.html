@@ -30,4 +30,9 @@
   <h4>Do you still have questions?  <a href="{% url 'login' %}?next={% url 'question_form' %}">Login</a> or <a href="{% url 'register' %}?next={% url 'question_form' %}">Register</a> to ask yours.</h4>
 {% endif %}
 
+{% for tag in view.alltags %}
+<div class="row">
+  <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
+</div>
+{% endfor %}
 {% endblock %}
