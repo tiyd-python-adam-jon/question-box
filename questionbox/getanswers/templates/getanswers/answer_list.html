@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load bootstrap3 %}
 {% block content %}
 
 <div class="container">
@@ -103,11 +103,18 @@
   </div>
 </div>
 
-{% comment %}
+
   {% if answers|length > 10 %}
-    <div class="text-center">
-      {% bootstrap_pagination page_obj pages_to_show=5 %}
-    </div>
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-1">
+        {# intentionally empty for spacing purposes#}
+      </div>
+      <div class="col-md-9">
+        <div class="text-center">
+          {% bootstrap_pagination page_obj pages_to_show=5 %}
+        </div>
+      </div>
   {% endif %}
-{% endcomment %}
+
 {% endblock %}
