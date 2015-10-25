@@ -145,7 +145,8 @@ class QuestionListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        self.alltags = Tag.objects.annotate(num_qs=Count('questions')).order_by('-num_qs')[:20]
+        self.alltags = Tag.objects.annotate(num_qs=Count('questions')) \
+            .order_by('-num_qs')[:20]
         preload = Question.objects.all()
         return preload.order_by('-timestamp')
 
@@ -160,5 +161,7 @@ class AnswerListView(ListView):
         self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
         self.alltags = Tag.objects.annotate(num_qs=Count('questions')) \
             .order_by('-num_qs')[:20]
-        return self.question.answer_set.all().order_by('-score') \
+        self.answers = self.question.answer_set.all().order_by('-score') \
             .prefetch_related('answerer')
+        self.numanswers = len(self.answers)
+        return self.answers
