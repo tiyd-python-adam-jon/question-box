@@ -2,5 +2,30 @@
 
 {% block content %}
 
+<div class="container">
 
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-1">
+        {# left side padding #}
+      </div>
+      <div class="col-md-9">
+        {# profile overview #}
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <strong>{{ object.user }}</strong>
+            </h3>
+          </div>
+          <div class="panel-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2">
+  </div>
+
+</div>
 {% endblock %}
