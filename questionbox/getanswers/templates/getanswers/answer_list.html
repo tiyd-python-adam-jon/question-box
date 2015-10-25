@@ -39,18 +39,18 @@
               {% csrf_token %}
               <input type="hidden" name="answerpk" value="{{ answer.pk }}">
               <input type="hidden" name="next" value="{{ request.path }}">
-              <input type="submit" class="btn btn-xs btn-info pull-right" value="&#708;">
+              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-up"></span></button>
             </form>
           </div>
           <div class="row">
-            <span class="pull-right"><b>{{ answer.score }}</b>{% if answer.score < 100 %}&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>
+            <span class="pull-right"><b>{{ answer.score }}</b>&nbsp;{% if answer.score < 100 %}&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>
           </div>
           <div class="row">
             <form method="POST" action="{% url 'downvote_answer' view.question.pk %}">
               {% csrf_token %}
               <input type="hidden" name="answerpk" value="{{ answer.pk }}">
               <input type="hidden" name="next" value="{{ request.path }}">
-              <input type="submit" class="btn btn-xs btn-info pull-right" value="&#709;">
+              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-down"></span></button>
             </form>
           </div>
         </div>
@@ -77,7 +77,7 @@
         <form method="POST" action="{% url 'add_answer' view.question.pk %}?next={{ request.path }}">
           {% csrf_token %}
             {{ view.form.as_p }}
-            <input type="submit" class="btn btn-md btn-primary pull-right" value="Submit Answer">
+            <button type="submit" class="btn btn-md btn-primary pull-right">give<b>answer</b></button>
         </form>
         {% else %}
         <h4>Do you have the right answer?  <a href="{% url 'login' %}?next={% firstof request.path '/' %}">Login</a> or <a href="{% url 'register' %}?next={% firstof request.path '/' %}">Register</a> to help.</h4>
