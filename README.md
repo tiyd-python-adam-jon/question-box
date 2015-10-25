@@ -23,7 +23,7 @@ There are benefits of creating an account beyond being able to ask and answer qu
 ### Question Form
 Located at `host/questions/form`. This is where you post new questions for people to answer.
 
-### Login, Logout, registration
+### Login, Logout, Registration
 Located in the navbar at the top of every page; login and registration links show only if not already logged in; logout shows only if logged in.
 
 
@@ -42,11 +42,11 @@ Located at `host/profiles/[profile_id]`, where `profile_id` is the numerical id 
 
 * Using your favorite command line program (e.g., Terminal on Mac&nbsp;OS&nbsp;X), install the requirements file in your virtual environment: `pip install -r requirements.txt`.
 
-* This app is set up to run on PostgreSQL. It is set it up to have a local (development) database named `questionbox` with a user of `questionbox` and a password of `password`. The database name, user, and password can all be configured to your preferences in the `question-box/questionbox/questionbox/settings.py` file. If you do not have PostgreSQL on your machine, follow [these instructions](https://github.com/tiyd-python-2015-08/course-resources/blob/master/week7/PostgreSQL-and-Django.md).
+* This app is set up to run on PostgreSQL. It is set it up to have a local (development) database named `questionbox` with a user of `questionbox` and a password of `password`. The database name, user, and password can all be configured to your preferences in the `question-box/questionbox/questionbox/settings.py` file. If you do not have PostgreSQL on your machine, [follow these instructions](https://github.com/tiyd-python-2015-08/course-resources/blob/master/week7/PostgreSQL-and-Django.md).
 
 * **Running the site with Django** requires more command line. Navigate to `question-box/questionbox` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
 
-* **Running the site with your own heroku local/web** requires that you have your machine set up with [heroku and heroku toolbelt](https://devcenter.heroku.com/articles/getting-started-with-python#set-up) and create a heroku account.
+* **Running the site with your own heroku local/web** requires that you have your machine set up with [heroku and heroku toolbelt](https://devcenter.heroku.com/articles/getting-started-with-python#set-up) and [create a heroku account](https://signup.heroku.com/).
  * Once you have these installed and have a heroku account, navigate to the `question-box` directory and run the following commands:
  ```
  $ heroku create
@@ -56,14 +56,14 @@ Located at `host/profiles/[profile_id]`, where `profile_id` is the numerical id 
  ```
 
  * Now, create a new file in the `question-box` directory called `.env` with the following contents where `[your_secret_key]` is replaced with the secret key used in your own heroku server from the previous step:
-```
-DATABASE_URL=postgres:///questionbox
-DJANGO_SETTINGS_MODULE=questionbox.heroku_settings
-PYTHONPATH=questionbox
-SECRET_KEY=[your_secret_key]
-```
+ ```
+ DATABASE_URL=postgres:///questionbox
+ DJANGO_SETTINGS_MODULE=questionbox.heroku_settings
+ PYTHONPATH=questionbox
+ SECRET_KEY=[your_secret_key]
+ ```
 
- * Next, navigate to the `question-box` directory and run the following commands to first, collect the static files (e.g., css files), and then deploy heroku locally (usually located at `localhost:5000`).
+ * Next, navigate to the `question-box` directory and run the following commands to first, collect the static files (e.g., css files), and then deploy heroku locally (usually located at `localhost:5000`). Again, this will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
  ```
  $ python questionbox/manage.py collectstatic
  $ heroku local web
