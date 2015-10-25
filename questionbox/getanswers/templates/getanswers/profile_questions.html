@@ -11,7 +11,23 @@
         {# left side padding #}
       </div>
       <div class="col-md-9">
-        <h1>This will be a list of questions</h1>
+        <h2>{{ view.profile }}'s Questions</h2>
+        <br>
+        {% for question in questions %}
+          <div class="row">
+            <div class="row">
+              <a href="{% url 'answer_list' question.pk %}">{{ question.title }}</a>
+            </div>
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-md-10">{{ question.qtext }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <br>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
