@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 # from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 # from django.utils.timezone import make_aware
-# from django.db.models import Count
+from django.db.models import Count
 from .forms import QuestionForm, AnswerForm
 from django.core.paginator import Paginator
 
@@ -145,16 +145,9 @@ class QuestionListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
+        self.alltags = Tag.objects.annotate(num_qs=Count('questions')).order_by('-num_qs')[:20]
         preload = Question.objects.all()
         return preload.order_by('-timestamp')
-
-
-def tag_list_short():
-    return Tag.objects.all().order_by()
-
-
-def question_list(request):
-    questions = Paginator(Question.objects.all().order_by('-timestamp'), 10)
 
 
 class AnswerListView(ListView):
