@@ -20,6 +20,9 @@ urlpatterns = [
     url(r'^questions/(?P<pk>\d+)/downvote$',
         ga_views.downvote_answer, name='downvote_answer'),
 
+    url(r'^questions/(?P<pk>\d+)/accept$',
+        ga_views.accept_answer, name='accept_answer'),
+
     url(r'^questions/(?P<pk>\d+)/add$',
         ga_views.add_answer, name='add_answer'),
 

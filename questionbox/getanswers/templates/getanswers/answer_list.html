@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load bootstrap3 %}
 {% block content %}
 
 <div class="container">
@@ -37,14 +37,24 @@
       {% for answer in answers %}
       <div class="row">
         <div class="col-md-1">
-          {# TODO: make up and down vote functions #}
           <div class="row">
             <form method="POST" action="{% url 'upvote_answer' view.question.pk %}">
               {% csrf_token %}
               <input type="hidden" name="answerpk" value="{{ answer.pk }}">
               <input type="hidden" name="next" value="{{ request.path }}">
-              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-up"></span></button>
+              <button type="submit" class="btn btn-xs btn-info pull-right" title="Upvote this answer"><span class="glyphicon glyphicon-chevron-up"></span></button>
             </form>
+            {% if answer.accepted %}
+              <span class="glyphicon glyphicon-ok btn-success pull-left" title="Answer accepted by asker"></span>
+            {% endif %}
+            {% if request.user.profile == view.question.asker and not view.question.answered %}
+              <form method="POST" action="{% url 'accept_answer' view.question.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="answerpk" value="{{ answer.pk }}">
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit" class="btn btn-xs btn-warning pull-left" title="Accept answer"><span class="glyphicon glyphicon-ok"></span></button>
+              </form>
+            {% endif %}
           </div>
           <div class="row">
             <span class="pull-right"><b>{{ answer.score }}</b>{% if answer.score < 100 %}&nbsp;&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>
@@ -54,7 +64,7 @@
               {% csrf_token %}
               <input type="hidden" name="answerpk" value="{{ answer.pk }}">
               <input type="hidden" name="next" value="{{ request.path }}">
-              <button type="submit" class="btn btn-xs btn-info pull-right"><span class="glyphicon glyphicon-chevron-down"></span></button>
+              <button type="submit" class="btn btn-xs btn-info pull-right" title="Downvote this answer (-1 your points)"><span class="glyphicon glyphicon-chevron-down"></span></button>
             </form>
           </div>
         </div>
@@ -91,19 +101,29 @@
   </div>
 
   <div class="col-md-2">
+    <div class"row">
+      <h3>Top Tags</h3>
+      <hr>
+    </div>
     {% for tag in view.alltags %}
     <div class="row">
-      <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a></p>
     </div>
     {% endfor %}
   </div>
 </div>
 
-{% comment %}
-  {% if answers|length > 10 %}
-    <div class="text-center">
-      {% bootstrap_pagination page_obj pages_to_show=5 %}
-    </div>
+  {% if view.numanswers > 10 %}
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-1">
+        {# intentionally empty for spacing purposes#}
+      </div>
+      <div class="col-md-9">
+        <div class="text-center">
+          {% bootstrap_pagination page_obj pages_to_show=5 %}
+        </div>
+      </div>
   {% endif %}
-{% endcomment %}
+
 {% endblock %}

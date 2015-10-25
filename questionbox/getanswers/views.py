@@ -100,12 +100,13 @@ def add_answer(request, pk):
 
 @login_required
 def upvote_answer(request, pk):
-    if request.method == 'POST':  # TODO: Make this possible to come in as POST
+    if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
         answer.score += 1
         answer.save()
-        answer.answerer.points += 10
-        answer.answerer.save()
+        answerer = answer.answerer
+        answerer.points += 10
+        answerer.save()
         messages.add_message(request,
                              messages.SUCCESS,
                              'You successfully upvoted that answer')
@@ -118,17 +119,41 @@ def upvote_answer(request, pk):
 
 @login_required
 def downvote_answer(request, pk):
-    if request.method == 'POST':  # TODO: Make this possible to come in as POST
+    if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
         answer.score -= 1
         answer.save()
-        answer.answerer.points -= 5
-        answer.answerer.save()
-        request.user.profile.points -= 1
-        request.user.profile.save()
+        answerer = answer.answerer
+        answerer.points -= 5
+        answerer.save()
+        downvoter = request.user.profile
+        downvoter.points -= 1
+        downvoter.save()
         messages.add_message(request,
                              messages.SUCCESS,
                              'You successfully downvoted that answer')
+    else:
+        messages.add_message(request,
+                             messages.ERROR,
+                             'Stop trying to hack this site!')
+    return redirect(request.POST['next'])
+
+
+@login_required
+def accept_answer(request, pk):
+    if request.method == 'POST':
+        answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
+        question = get_object_or_404(Question, pk=pk)
+        answer.accepted = True
+        answer.save()
+        answerer = answer.answerer
+        answerer.points += 100
+        answerer.save()
+        question.answered = True
+        question.save()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'You successfully accepted that answer')
     else:
         messages.add_message(request,
                              messages.ERROR,
@@ -145,7 +170,8 @@ class QuestionListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        self.alltags = Tag.objects.annotate(num_qs=Count('questions')).order_by('-num_qs')[:20]
+        self.alltags = Tag.objects.annotate(num_qs=Count('questions')) \
+            .order_by('-num_qs')[:20]
         preload = Question.objects.all()
         return preload.order_by('-timestamp')
 
@@ -160,5 +186,7 @@ class AnswerListView(ListView):
         self.question = get_object_or_404(Question, pk=self.kwargs['pk'])
         self.alltags = Tag.objects.annotate(num_qs=Count('questions')) \
             .order_by('-num_qs')[:20]
-        return self.question.answer_set.all().order_by('-score') \
+        self.answers = self.question.answer_set.all().order_by('-score') \
             .prefetch_related('answerer')
+        self.numanswers = len(self.answers)
+        return self.answers

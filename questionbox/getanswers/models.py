@@ -18,6 +18,7 @@ class Question(models.Model):
     qtext = models.TextField()
     asker = models.ForeignKey(Profile, null=True, blank=True)  # TODO: remove null and blank
     tag = models.ManyToManyField('Tag', related_name='questions')
+    answered = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
