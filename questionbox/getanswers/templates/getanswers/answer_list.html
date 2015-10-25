@@ -43,7 +43,7 @@
             </form>
           </div>
           <div class="row">
-            <span class="pull-right"><b>{{ answer.score }}</b>&nbsp;{% if answer.score < 100 %}&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>
+            <span class="pull-right"><b>{{ answer.score }}</b>{% if answer.score < 100 %}&nbsp;&nbsp;{% endif %}{% if answer.score < 10 %}&nbsp;{% endif %}<span>
           </div>
           <div class="row">
             <form method="POST" action="{% url 'downvote_answer' view.question.pk %}">
