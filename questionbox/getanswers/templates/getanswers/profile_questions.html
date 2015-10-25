@@ -32,8 +32,11 @@
       {# left side padding #}
     </div>
     <div class="col-md-9">
-      <div class="pull-right">
-        <a href="{% url 'profile_answers' view.profile.pk %}">Answers</a><a href="#">Questions</a>
+      <div class="nav-pills">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'profile_answers' view.profile.pk %}">Answers</a></li>
+          <li><a href="#">Questions</a></li>
+        </ul>
       </div>
     </div>
 
