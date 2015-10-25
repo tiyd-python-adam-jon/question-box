@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'u1&d=b-adto2l8rep0$+et_u&f0w70l)!!s2#-3dq)7zq*j@a6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'bootstrap_themes',
-    'debug_toolbar',  # comment this out if you don't want a debug toolbar
+    # 'debug_toolbar',  # comment this out if you don't want a debug toolbar
     'getanswers',
 )
 
