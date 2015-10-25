@@ -18,14 +18,24 @@
             </h3>
           </div>
           <div class="panel-body">
-            <p>Score: {{ object.points }}</p>
-            <p>Member Since {{ object.date_created|date }}</p>
+            <p>Score: {% firstof object.points view.profile.points %}</p>
+            <p>Member Since {% firstof object.date_created|date view.profile.date_created|date %}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-
+      <div class="col-md-1">
+        {# left side padding #}
+      </div>
+      <div class="col-md-9">
+        <div class="nav-pills">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'profile_answers' view.profile.pk %}">Answers</a></li>
+            <li><a href="{% url 'profile_questions' view.profile.pk %}">Questions</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
     <div class="col-md-1">
