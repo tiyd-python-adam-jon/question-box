@@ -165,13 +165,17 @@ class AnswerListView(ListView):
             .prefetch_related('answerer')
 
 
-class ProfileDetail(DetailView):
+class ProfileDetailView(DetailView):
+    model = Profile
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        return context
+
+
+class ProfileQuestionsView(ListView):
     pass
 
 
-class ProfileQuestions(ListView):
-    pass
-
-
-class ProfileAnswers(ListView):
+class ProfileAnswersView(ListView):
     pass
