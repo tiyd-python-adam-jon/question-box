@@ -58,8 +58,7 @@
           <li role="presentation">
               <a href="{% url 'question_form' %}">Ask New Question</a>
           </li>
-          <li role="presentation">
-            <a href="#">{{user.username}}</a>  <!-- TODO: link this to profile page -->
+            <a href="{% url 'profile_detail' user.profile.pk %}">{{user.username}}</a>  <!-- TODO: link this to profile page -->
           </li>
           <li role="presentation">
             <a href="{% url 'logout' %}?next={% firstof request.path '/' %}">Logout</a>

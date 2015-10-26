@@ -1,5 +1,6 @@
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login  # , logout
 from .models import Profile, Tag, Question, Answer
@@ -190,3 +191,34 @@ class AnswerListView(ListView):
             .prefetch_related('answerer')
         self.numanswers = len(self.answers)
         return self.answers
+
+
+class ProfileDetailView(DetailView):
+    model = Profile
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        return context
+
+
+class ProfileQuestionsView(ListView):
+    template_name = 'getanswers/profile_questions.html'
+    context_object_name = 'questions'
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        self.username = self.profile.user
+        return self.profile.question_set.all().order_by('-timestamp')
+
+
+class ProfileAnswersView(ListView):
+    template_name = 'getanswers/profile_answers.html'
+    context_object_name = 'answers'
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        self.username = self.profile.user
+        return self.profile.answer_set.all().order_by('-timestamp')
+>>>>>>> feature/profile-detail

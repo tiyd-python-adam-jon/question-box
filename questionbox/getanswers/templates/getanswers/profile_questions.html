@@ -1,0 +1,45 @@
+{% extends "getanswers/profile_detail.html" %}
+{% load bootstrap3 %}
+
+{% block prof_list %}
+
+
+
+<div class="container">
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-1">
+        {# left side padding #}
+      </div>
+      <div class="col-md-9">
+        <h2>{{ view.profile }}'s Questions</h2>
+        <br>
+        {% for question in questions %}
+          <div class="row">
+            <div class="row">
+              <a href="{% url 'answer_list' question.pk %}">{{ question.title }}</a>
+            </div>
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-md-10">{{ question.qtext }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <br>
+          </div>
+        {% endfor %}
+        <div class="text-center">
+          {% bootstrap_pagination page_obj pages_to_show=5 %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-2">
+</div>
+
+</div>
+{% endblock %}
