@@ -10,7 +10,7 @@
 <h3>Register as a new user</h3>
 <br>
 
-<form action="" method="POST">
+<form action="?next={{ request.next }}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn btn-md btn-primary" value="Create User" />
