@@ -31,6 +31,9 @@ class UserCreateView(FormView):
         user = authenticate(username=new_user.username,
                             password=form.cleaned_data['password1'])
         login(self.request, user)
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            'Welcome to GetAnswers! You have successfully registered as {}'.format(new_user.username))
         return super(UserCreateView, self).form_valid(form)
 
 
