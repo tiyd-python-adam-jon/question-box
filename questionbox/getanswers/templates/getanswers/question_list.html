@@ -8,17 +8,46 @@
 {% block content %}
 
 <div class="container">
-  <div class="col-md-8">
+  <div class="col-md-10">
     <div class="row">
       <h3>Recently asked questions:</h3>
     </div>
     <br>
     {% for question in questions %}
-    <a href="{% url 'answer_list' question.pk %}"><p>{{ question.title }}</p></a>
-    <p><small>has gotten {{ question.answer_set.count }} answers in {{ question.timestamp | timesince }}</small></p>
-    <br>
+      <div class="row">
+        <div class="col-md-1">
+            <div class="row text-center" style="font-size:140%">
+              {% if question.answered %}
+                <span class="text-success">{{ question.answer_set.count }}</span>
+              {% else %}
+                {{ question.answer_set.count }}
+              {% endif %}
+          </div>
+          <div class="row text-center" style="font-size:90%">
+            answer{{ question.answer_set.count|pluralize }}
+          </div>
+        </div> {# end col-md-1 #}
+        <div class="col-md-5">
+          <div class="row" style="font-size:120%">
+            <a href="{% url 'answer_list' question.pk %}">{{ question.title }}</a>
+          </div>
+          <div class="row">
+            {% for tag in question.tag.all %}
+              <span style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <br>
+          </div>
+          <div class="row">
+            <small>asked {{ question.timestamp | timesince }} ago by <a href="#">{{ question.asker }}</a></small>
+          </div>
+        </div>
+      </div>
+      <br>
     {% endfor %}
-
     {% if questions|length > 10 %}
       <div class="text-center">
         {% bootstrap_pagination page_obj pages_to_show=5 %}
@@ -32,14 +61,14 @@
     {% endif %}
   </div>
 
-  <div class="col-md-2">
+  <div class="col-md-2 pull-right">
     <div class="row">
       <h3>Top Tags</h3>
+      <hr>
     </div>
-    <br>
     {% for tag in view.alltags %}
     <div class="row">
-      <p><a href="#" class="text-muted">{{ tag.ttext }}</a></p>
+      <p><a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a></p>
     </div>
     {% endfor %}
   </div>
