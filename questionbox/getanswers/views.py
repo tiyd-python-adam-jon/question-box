@@ -221,4 +221,3 @@ class ProfileAnswersView(ListView):
         self.profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
         self.username = self.profile.user
         return self.profile.answer_set.all().order_by('-timestamp')
->>>>>>> feature/profile-detail
