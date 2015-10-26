@@ -19,7 +19,7 @@
               {{ view.question.qtext }}
             </div>
             <div class="panel-footer">
-                <small><b><a href="{% url 'profile_detail' view.question.asker.pk %}">{{ view.question.asker }}</a></b> asked on {{ view.question.timestamp }}</small>
+                <small><b><a href="{% url 'profile_detail' view.question.asker.pk %}" class="text-muted">{{ view.question.asker }}</a></b> asked on {{ view.question.timestamp }}</small>
               <div class="pull-right">
                 {% for tag in view.question.tag.all %}
                   <small><a href="#" style="background-color:rgba(39,128,227, .19)">{{ tag.ttext }}</a></small>&nbsp;
@@ -65,7 +65,7 @@
             </div>
             <div class="panel-footer">
               <div>
-                <small><b><a href="{% url 'profile_detail' answer.answerer.pk %}">{{ answer.answerer }}</a></b> answered on {{ answer.timestamp }}</small>
+                <small><b><a href="{% url 'profile_detail' answer.answerer.pk %}" class="text-muted">{{ answer.answerer }}</a></b> answered on {{ answer.timestamp }}</small>
               </div>
             </div> {# end panel-footer #}
           </div>
