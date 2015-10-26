@@ -173,6 +173,7 @@ class QuestionListView(ListView):
     def get_queryset(self):
         self.alltags = Tag.objects.annotate(num_qs=Count('questions')) \
             .order_by('-num_qs')[:20]
+        self.numquestions = Question.objects.all().count()
         preload = Question.objects.all()
         return preload.order_by('-timestamp')
 

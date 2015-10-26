@@ -42,13 +42,13 @@
             <br>
           </div>
           <div class="row">
-            <small>asked {{ question.timestamp | timesince }} ago by <a href="#">{{ question.asker }}</a></small>
+            <small>asked {{ question.timestamp | timesince }} ago by <a href="{% url 'profile_detail' question.asker.pk %}">{{ question.asker }}</a></small>
           </div>
         </div>
       </div>
       <br>
     {% endfor %}
-    {% if questions|length > 10 %}
+    {% if view.numquestions > 10 %}
       <div class="text-center">
         {% bootstrap_pagination page_obj pages_to_show=5 %}
       </div>
