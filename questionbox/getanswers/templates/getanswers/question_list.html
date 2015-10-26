@@ -16,13 +16,17 @@
     {% for question in questions %}
       <div class="row">
         <div class="col-md-1">
-          <div class="row text-center" style="font-size:140%">
-            {{ question.answer_set.count }}
+            <div class="row text-center" style="font-size:140%">
+              {% if question.answered %}
+                <span class="text-success">{{ question.answer_set.count }}</span>
+              {% else %}
+                {{ question.answer_set.count }}
+              {% endif %}
           </div>
           <div class="row text-center" style="font-size:90%">
             answer{{ question.answer_set.count|pluralize }}
           </div>
-        </div>
+        </div> {# end col-md-1 #}
         <div class="col-md-5">
           <div class="row" style="font-size:120%">
             <a href="{% url 'answer_list' question.pk %}">{{ question.title }}</a>
@@ -35,6 +39,7 @@
         </div>
         <div class="col-md-4">
           <div class="row">
+            <br>
           </div>
           <div class="row">
             <small>asked {{ question.timestamp | timesince }} ago by <a href="#">{{ question.asker }}</a></small>
