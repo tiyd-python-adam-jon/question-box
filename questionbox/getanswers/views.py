@@ -113,7 +113,7 @@ def upvote_answer(request, pk):
                                     foranswer=answer)
             if vote.vote:
                 messages.add_message(request,
-                                     messages.SUCCESS,
+                                     messages.ERROR,
                                      'You may only vote once per answer')
             else:
                 answer.score += 2
@@ -167,7 +167,7 @@ def downvote_answer(request, pk):
                                      'You have changed your vote')
             else:
                 messages.add_message(request,
-                                     messages.SUCCESS,
+                                     messages.ERROR,
                                      'You may only vote once per answer')
         except:
             answer.score -= 1
