@@ -3,7 +3,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login  # , logout
-from .models import Profile, Tag, Question, Answer
+from .models import Profile, Tag, Question, Answer, Vote
 # from datetime import datetime  # , timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -106,14 +106,37 @@ def add_answer(request, pk):
 def upvote_answer(request, pk):
     if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
-        answer.score += 1
-        answer.save()
         answerer = answer.answerer
-        answerer.points += 10
-        answerer.save()
-        messages.add_message(request,
-                             messages.SUCCESS,
-                             'You successfully upvoted that answer')
+        voter = request.user.profile
+        try:
+            vote = Vote.objects.get(voter=voter,
+                                    foranswer=answer)
+            if vote.vote:
+                messages.add_message(request,
+                                     messages.ERROR,
+                                     'You may only vote once per answer')
+            else:
+                answer.score += 2
+                answer.save()
+                answerer.points += 15
+                answerer.save()
+                voter.points += 1
+                voter.save()
+                vote.vote = True
+                vote.save()
+                messages.add_message(request,
+                                     messages.SUCCESS,
+                                     'You have changed your vote')
+        except:
+            answer.score += 1
+            answer.save()
+            answerer.points += 10
+            answerer.save()
+            vote = Vote(voter=voter, foranswer=answer, vote=True)
+            vote.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'You successfully upvoted that answer')
     else:
         messages.add_message(request,
                              messages.ERROR,
@@ -125,17 +148,39 @@ def upvote_answer(request, pk):
 def downvote_answer(request, pk):
     if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=request.POST['answerpk'])
-        answer.score -= 1
-        answer.save()
         answerer = answer.answerer
-        answerer.points -= 5
-        answerer.save()
-        downvoter = request.user.profile
-        downvoter.points -= 1
-        downvoter.save()
-        messages.add_message(request,
-                             messages.SUCCESS,
-                             'You successfully downvoted that answer')
+        voter = request.user.profile
+        try:
+            vote = Vote.objects.get(voter=voter,
+                                    foranswer=answer)
+            if vote.vote:
+                answer.score -= 2
+                answer.save()
+                answerer.points -= 15
+                answerer.save()
+                voter.points -= 1
+                voter.save()
+                vote.vote = False
+                vote.save()
+                messages.add_message(request,
+                                     messages.SUCCESS,
+                                     'You have changed your vote')
+            else:
+                messages.add_message(request,
+                                     messages.ERROR,
+                                     'You may only vote once per answer')
+        except:
+            answer.score -= 1
+            answer.save()
+            answerer.points -= 5
+            answerer.save()
+            voter.points -= 1
+            voter.save()
+            vote = Vote(voter=voter, foranswer=answer, vote=False)
+            vote.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'You successfully downvoted that answer')
     else:
         messages.add_message(request,
                              messages.ERROR,
