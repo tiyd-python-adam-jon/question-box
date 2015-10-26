@@ -16,7 +16,7 @@ class Profile(models.Model):
 class Question(models.Model):
     title = models.CharField(max_length=255)
     qtext = models.TextField()
-    asker = models.ForeignKey(Profile, null=True, blank=True)  # TODO: remove null and blank
+    asker = models.ForeignKey(Profile)
     tag = models.ManyToManyField('Tag', related_name='questions')
     answered = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
